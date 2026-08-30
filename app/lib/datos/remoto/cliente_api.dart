@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 class ClienteApi {
   // Ajustar base URL si se usa emulador de Android (10.0.2.2) u otra IP.
   final _dio = Dio(BaseOptions(
-    baseUrl: 'http://192.168.11.10:3000/api',
+    baseUrl: 'https://proyecto-p2-99xg.onrender.com/api',
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 5),
   ));
