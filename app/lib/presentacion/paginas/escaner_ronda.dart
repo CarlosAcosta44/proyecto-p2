@@ -88,6 +88,18 @@ class _EscanerRondaState extends ConsumerState<EscanerRonda> {
       appBar: AppBar(title: const Text('Ronda en curso')),
       body: MobileScanner(
         controller: _controller,
+        errorBuilder: (context, error, child) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Error de cámara:\nCódigo: ${error.errorCode.name}\nDetalles: ${error.errorDetails?.message ?? "N/A"}\nPor favor toma captura de esto.',
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        },
         onDetect: (captura) async {
           if (captura.barcodes.isEmpty) return;
           final codigo = captura.barcodes.first.rawValue;
