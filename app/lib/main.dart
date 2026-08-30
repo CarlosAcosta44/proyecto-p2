@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:geolocator/geolocator.dart';
 import 'presentacion/paginas/escaner_ronda.dart';
 import 'presentacion/providers/ronda_provider.dart';
 
@@ -70,11 +72,16 @@ class HomeRonda extends ConsumerWidget {
               const Text('Ronda en curso'),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const EscanerRonda()),
-                  );
+                onPressed: () async {
+                  await Permission.camera.request();
+                  await Geolocator.requestPermission();
+                  
+                  if (context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const EscanerRonda()),
+                    );
+                  }
                 },
                 child: const Text('Ir a escanear'),
               ),
