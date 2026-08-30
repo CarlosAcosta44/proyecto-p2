@@ -65,15 +65,29 @@ class _EscanerRondaState extends ConsumerState<EscanerRonda> {
     }
   }
 
+  late final MobileScannerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = MobileScannerController(
+      detectionSpeed: DetectionSpeed.noDuplicates,
+      facing: CameraFacing.back,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ronda en curso')),
       body: MobileScanner(
-        controller: MobileScannerController(
-          detectionSpeed: DetectionSpeed.noDuplicates,
-          facing: CameraFacing.back,
-        ),
+        controller: _controller,
         onDetect: (captura) async {
           if (captura.barcodes.isEmpty) return;
           final codigo = captura.barcodes.first.rawValue;
